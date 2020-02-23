@@ -1,0 +1,173 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:cam_low_latency"
+        xmlns:WPF="clr-namespace:VisioForge.Controls.UI.WPF;assembly=VisioForge.Controls.UI" x:Class="cam_low_latency.MainWindow"
+        mc:Ignorable="d"
+        Title="WIFI RC ROBOT" Height="515" Width="810" ResizeMode="NoResize" Background="Gainsboro">
+
+    <!--Outside Grid-->
+    <Grid x:Name="OutsideGrid">
+        <!--Work Space Definition-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="336"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <!--Camara Grid-->
+        <Grid x:Name="InnerCameraGrid" Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Buttons Camara-->
+            <Button x:Name="BtnConnect" Click="Connect" Content="Connect"
+                Height="35" Width="140" 
+                Grid.Column="1" Grid.Row="1">
+            </Button>
+            <Button x:Name="BtnDisconnect" Click="Disconnect" Content="Disconnect"
+                Height="35" Width="140"
+                Grid.Column="2" Grid.Row="1">
+            </Button>
+            <Button x:Name="BtnRecord" Click="Record" Content="Record"
+                Height="35" Width="140"
+                Grid.Column="1" Grid.Row="2">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Image Source="C:\Users\carle\Documents\GitHub\Hackcu_WIFI_ROBOT\rec.png"  VerticalAlignment="Center" Height="50"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="BtnSnap" Click="Snapshot" Content="Snapshot"
+                Height="35" Width="140"
+                Grid.Column="2" Grid.Row="2">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Image Source="C:\Users\carle\Documents\GitHub\Hackcu_WIFI_ROBOT\snap.png"  VerticalAlignment="Center" Height="20"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </Grid>
+
+        <!--Controls Robot & Camara Grid-->
+        <Grid x:Name="ControlsGrid" Grid.Column="2" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="95"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"/>
+                <!--Robot's Controls Text-->
+                <RowDefinition Height="25"/>
+                <!--W-->
+                <RowDefinition Height="40"/>
+                <!--A,S,D-->
+                <RowDefinition Height="50"/>
+                <!--slider velocity-->
+                <RowDefinition Height="40"/>
+                <!--label velocity-->
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <!--Camara's Controls-->
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="10"/>
+                <!--slider degree camara-->
+                <RowDefinition Height="40"/>
+                <!--label degree camara-->
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--IP configuration Btn-->
+            <Label Content="Ip config" Grid.Column="0" Grid.Row="0" Margin="20,0,0,0" FontSize="6" VerticalAlignment="Center"/>
+            <Button x:Name="BtnIP" Height="15" Width="15" Grid.Column="0" Grid.Row="0" Click=" Ip_config_Click"
+                    VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,0,0,0"
+                    ToolTipService.InitialShowDelay="500" ToolTipService.ShowDuration="3000" ToolTipService.BetweenShowDelay="10000" ToolTip="Configurate IP.">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="C:\Users\carle\Documents\GitHub\Hackcu_WIFI_ROBOT\gear.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!--Control Car butons-->
+            <TextBlock Text="Robot's Controls" FontSize="15" FontWeight="Bold" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Grid.Column="1" Grid.Row="1"/>
+            <Button x:Name="BtnW" Click="W" Height="25" Width="45" Grid.Column="1" Grid.Row="2" Content="W" Keyboard.KeyUp="key_event"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            </Button>
+            <Button x:Name="BtnSpace" Click="Space" Height="25" Width="45" Grid.Column="2" Grid.Row="2" Content=""  Keyboard.KeyUp="key_event"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="#333333" BorderBrush="#333333">
+            </Button>
+            <Button x:Name="BtnForward" Click="Q" Height="Auto" Width="45" Grid.Column="0" Grid.Row="2" Content=""  Keyboard.KeyUp="key_event" HorizontalAlignment="Right" Background="Red" BorderBrush="Red" Margin="0,15,0.2,0" RenderTransformOrigin="0.504,0.5"/>
+            <Button x:Name="BtnS" Click="S" Height="25" Width="45" Grid.Column="1" Grid.Row="3" Content="S" Keyboard.KeyUp="key_event"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            </Button>
+            <Button x:Name="BtnA" Click="A" Height="25" Width="45" Grid.Column="0" Grid.Row="3" Content="A" Keyboard.KeyUp="key_event"
+                    VerticalAlignment="Center" HorizontalAlignment="Right">
+            </Button>
+            <Button x:Name="BtnD" Click="D" Height="25" Width="45" Grid.Column="2" Grid.Row="3" Content="D" Keyboard.KeyUp="key_event"
+                    VerticalAlignment="Center" HorizontalAlignment="Left">
+            </Button>
+            <Slider x:Name="Slider_vel" Maximum="100" Minimum="0" ValueChanged="Slider_vel_ValueChanged" 
+                    Grid.Column="1" Grid.Row="4" Margin="0" VerticalAlignment="Center"
+                    TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="5">
+                <Label Content="Velocity ="/>
+                <Label x:Name="Velocity_label" Content="{Binding ElementName=Slider_vel, Path=Value}"/>
+            </TextBlock>
+
+            <!--Control Camara butons-->
+            <TextBlock Text="Camera Tilt" FontSize="15" FontWeight="Bold" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Grid.Column="1" Grid.Row="7"/>
+            <Slider x:Name="Slider" Maximum="90" Minimum="-90" ValueChanged="Slider_ValueChanged" 
+                    Grid.Column="1" Grid.Row="9" Margin="0" VerticalAlignment="Center"
+                    TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="10">
+                <Label Content="Degree ="/>
+                <Label x:Name="Degree_label" Content="{Binding ElementName=Slider, Path=Value}"/>
+            </TextBlock>
+        </Grid>
+
+        <!-- Sensoring Grid + Leds-->
+        <Grid x:Name="Sensoring" Grid.Column="2" Grid.Row="2">
+            <Button x:Name="Led_on"  Width="100" Click="Led_on_Click"  Content="Lights on"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,0,0,0" />
+            <Button x:Name="Led_off" Width="100" Click="Led_off_Click" Content="Lights off" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="176,0,0,0"/>
+            <TextBox x:Name="textBox1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,40,40,0" Height="73" Width="280" Background="White" />
+        </Grid>
+
+
+        <!--Camara Vision-->
+        <Frame Grid.Column="1" Grid.Row="1" Height="336" Width="450" Background="#333333">
+            <Frame.Content>
+                <TextBlock Text="No Signal" FontSize="20" FontStyle="Italic" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Frame.Content>
+        </Frame>
+
+        <WPF:VideoCapture Name="videoCapture1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                          Height="336"  Width="450"
+                          Grid.Column="1" Grid.Row="1"/>
+    </Grid>
+</Window>
